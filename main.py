@@ -56,6 +56,30 @@ def deal_player_first_cards():
 	p_hand = [player_first_card, player_second_card]
 	return p_hand
 
+def compare_score(dealer_hand, player_hand):
+	"""
+	COMPARE SCORES AND DECIDE WINNER
+	"""
+	for i in dealer_hand:
+		dealer_total = i.value + i.value
+	for i in player_hand:
+		player_total = i.value + i.value
+
+	if player_total > 21:
+		print("\n\nYou busted! " + str(dealer_total) + "\nPlayer total: " + str(player_total))
+		bet = Player.player_bet
+		player1.balance -= bet
+	elif player_total == dealer_total:
+		print("\n\nPUSH \nDealer: " + str(dealer_total) + "\nPlayer total: " + str(player_total))
+	elif player_total > dealer_total:
+		print("\n\nYou win! \nDealer: " + str(dealer_total) + "\nPlayer total: " + str(player_total))
+		bet = Player.player_bet
+		player1.balance += bet
+	elif player_total < dealer_total:
+		print("\n\nYou lose! \nDealer: " + str(dealer_total) + "\nPlayer total: " + str(player_total))
+		bet = Player.player_bet
+		player1.balance -= bet
+
 def check_blackjack(card):
 	"""
 	CHECKS IF PLAYER HAS BLACKJACK
@@ -68,10 +92,12 @@ def check_blackjack(card):
 		print("||BLACKJACK|| YOU WIN! x2 bet")
 		player1.balance += Player.player_bet * 2
 		return True
+		playing = False
 	if hand_rank2 in faces and hand_rank1 == "Ace":
 		print("||BLACKJACK|| YOU WIN! x2 bet")
 		player1.balance += Player.player_bet * 2
 		return True
+		playing = False
 
 while ready:
 	start = input("\nAre you ready to begin? ").lower()
@@ -84,7 +110,6 @@ while ready:
 		print("Please type yes or no")
 
 while playing:
-	player_printed_hand = []
 	player_hand = deal_player_first_cards()
 	dealer_hand = deal_dealer_first_two()
 	
@@ -96,7 +121,6 @@ while playing:
 
 	print("\nYour cards are:")
 	for i in player_hand:
-		player_printed_hand.append(i)
 		print(i)
 		
 	print("\n\n")
@@ -114,25 +138,35 @@ while playing:
 		hit_dd = True
 	while hit_dd:
 		if player_action_hsdd == 'hit':
-			player_printed_hand.append(str(Deck.deal_one))
+			player_hit = shuffleddeck.pop(0)
+			player_hand.append(player_hit)
 			print("\nYou hit, your cards are: ")
-			for i in player_printed_hand:
+			for i in player_hand:
 				print(i)
 			hit_dd = False
 		if player_action_hsdd == 'double down' and Player.player_bet != 0:
 			Player.player_bet = Player.player_bet * 2
-			player_hand.append(shuffleddeck.pop(0))
+			player_hit = shuffleddeck.pop(0)
+			player_hand.append(player_hit)
 			hit_dd = False
 	
 	if player_action_hsdd == 'stay':
 		print("\nYou stay with a hand of: ")
 		for i in player_hand:
 			print(i)
+		playing = False
 
+	for i in dealer_hand:
+		total = i.value + i.value
+		if total <=16:
+			dealer_hit = shuffleddeck.pop(0)
+			dealer_hand.append(dealer_hit)
+	
 	print("\nDealers hand: ")
 	for i in dealer_hand:
 		print(i)
 	
+	compare_score(dealer_hand, player_hand)
 	playing = False
 	
 if check_blackjack == True:
@@ -142,3 +176,5 @@ if check_blackjack == True:
 	else:
 		quit()
 	
+
+
