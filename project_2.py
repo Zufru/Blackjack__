@@ -20,7 +20,7 @@ class Card:
 		
 	def __str__(self):
 		return self.rank + " of " + self.suit
-		
+
 class Deck:
 	"""
 	DECK CLASS SHUFFLY, STAY, DEAL CARDS
@@ -42,12 +42,15 @@ class Deck:
 	
 	def deal_one(self):
 		return self.all_cards.pop()
+		
+	def __str__(self):
+		return self.rank + " of " + self.suit
 
 class Player:
 	"""
 	PLAYER CLASS DEFINING BET AND SAVING IT TO PLAYER_BET IF PLAYER WINS
 	"""
-	player_bet = int()
+	player_bet = int(0)
 	
 	def __init__(self, player, balance):
 		self.player = player
