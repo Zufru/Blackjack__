@@ -42,9 +42,6 @@ class Deck:
 	
 	def deal_one(self):
 		return self.all_cards.pop()
-		
-	def __str__(self):
-		return self.rank + " of " + self.suit
 
 class Player:
 	"""
@@ -71,3 +68,13 @@ class Player:
 		return self.player + ' has a balance of ' + str(self.balance) 
 
 
+def information():
+	"""
+	JUST AN INFORMATION SECTION
+	"""
+	info2 = print("************************************|HOW TO PLAY|********************************************")
+	info3 = print("****                   All cards are equivalent to their stated value.                   ****")
+	info4 = print("****                   Face cards hold a value of 11.                                    ****")
+	info5 = print("****                   A face card with a ACE on your first two cards is a blackjack.    ****")
+	info6 = print("****                   Blackjack doubles your bet.                                       ****")
+	info7 = print("*********************************************************************************************")
