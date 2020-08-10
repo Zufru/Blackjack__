@@ -1,12 +1,14 @@
 import random
-from project_2 import Player
-from project_2 import Deck
+from project_2 import *
 
-p_name = input("|||||||BLACKJACK||||||| \nWelcome to Black Jack, What is your name? ")
+print("**********************************||||BLACKJACK||||******************************************")
+information()
+p_name = input("\nWelcome to Blackjack, What is your name? ")
 playername = p_name
 playerbalance = 1000
 player1 = Player(playername, playerbalance)
 playing = False
+faces = ['Jack', 'Queen', 'King']
 
 def ask_for_bet():
 	"""
@@ -17,6 +19,8 @@ def ask_for_bet():
 new_deck = Deck()
 new_deck.shuffle()
 shuffleddeck = new_deck.all_cards
+new_dcard = ''
+new_pcard = ''
 
 def deal_dealer_first_two():
 	"""
@@ -35,6 +39,21 @@ def deal_player_first_cards():
 	player_second_card = shuffleddeck.pop(0)
 	p_hand = [player_first_card, player_second_card]
 	return p_hand
+	
+def check_blackjack(card):
+	"""
+	CHECKS IF PLAYER HAS BLACKJACK
+	"""
+	hand_rank1 = player_hand[0].rank
+	hand_rank2 = player_hand[1].rank
+	hand_value1 = values[hand_rank1]
+	hand_value2 = values[hand_rank2]
+	if hand_rank1 in faces and hand_rank2 == "Ace":
+		print("||BLACKJACK|| YOU WIN! x2 bet")
+		player1.balance += Player.player_bet * 2
+	if hand_rank2 in faces and hand_rank1 == "Ace":
+		print("||BLACKJACK|| YOU WIN!")
+		player1.balance += Player.player_bet * 2
 
 start = input("\nAre you ready to begin? ").lower()
 
@@ -46,9 +65,14 @@ elif start == 'no':
 while playing:
 	player_hand = deal_player_first_cards()
 	dealer_hand = deal_dealer_first_two()
-	print(player_hand)
-	print(dealer_hand)
-
+	print("\nYour cards are:")
+	for i in player_hand:
+		print(i)
+	print("\n\n\nThe dealers cards are:")
+	for i in dealer_hand:
+		print(i)
+	
+	check_blackjack(player_hand)
 	playing = False
 	
 #player_betting = ask_for_bet()
@@ -56,4 +80,3 @@ while playing:
 #	player1.betchips()
 #elif player_betting != "yes":
 #	pass
-
